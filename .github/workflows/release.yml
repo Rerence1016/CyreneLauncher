@@ -4,7 +4,7 @@ on:
     inputs:
       version:
         description: PS4 application version (XX.YY)
-        default: '01.09'
+        default: '01.07'
         required: true
         type: string
       draft_release:

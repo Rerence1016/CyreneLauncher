@@ -13,7 +13,7 @@ import tarfile
 import tempfile
 import urllib.request
 
-VERSION = "01.09"
+VERSION = "01.07"
 ROOT = Path(__file__).resolve().parents[1]
 GP = ROOT / 'graphics-probe'
 APP = ROOT / 'orbis-java-app'

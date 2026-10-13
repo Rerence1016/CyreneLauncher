@@ -101,7 +101,7 @@ int orbis_mapping_probe_hotspot_reservation(
         return -1;
     }
 
-    const int flags = MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE;
+    const int flags = MAP_PRIVATE | MAP_ANONYMOUS;
     result->raw_attempts++;
     void *raw = mmap(NULL, size, PROT_NONE, flags, -1, 0);
     if (raw == MAP_FAILED) {

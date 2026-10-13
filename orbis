@@ -6,4 +6,4 @@ if [[ -f "$root/.cyrene.env" ]]; then
     source "$root/.cyrene.env"
     set +a
 fi
-exec python3 "$root/tools/cyrene.py" "$@"
+exec python3.12 "$root/tools/cyrene.py" "$@"

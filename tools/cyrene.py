@@ -13,6 +13,7 @@ import tarfile
 import tempfile
 import urllib.request
 
+VERSION = "01.09"
 ROOT = Path(__file__).resolve().parents[1]
 GP = ROOT / 'graphics-probe'
 APP = ROOT / 'orbis-java-app'
@@ -551,12 +552,12 @@ def main():
     parser.add_argument('--pkgtool',type=Path,default=Path(os.environ.get('PKGTOOL') or '/home/wonder/pkgtool-net8/PkgTool.Core.dll'))
     for v in (17,21,25):parser.add_argument('--boot-jdk'+str(v),type=Path,default=Path(os.environ['BOOT_JDK'+str(v)]) if os.environ.get('BOOT_JDK'+str(v)) else (Path('/usr/lib/jvm/java-17-openjdk-amd64') if v==17 else None))
     parser.add_argument('--jobs',type=int,default=min(os.cpu_count() or 1,4))
-    parser.add_argument('--version',default='01.06')
+    parser.add_argument('--version',default=f'{VERSION}')
     parser.add_argument('--archive',type=Path,default=ROOT/'dist/cyrene-components.tar.gz')
     args=parser.parse_args()
     if args.jdk != 'all' and args.command not in ('jdks','fetch-jdks'):parser.error('--jdk is only supported by the jdks and fetch-jdks commands')
     import re
-    if args.jobs<1 or not re.fullmatch(r'\d{2}\.\d{2}',args.version):parser.error('Use positive jobs and a PS4 version such as 01.06')
+    if args.jobs<1 or not re.fullmatch(r'\d{2}\.\d{2}',args.version):parser.error(f'Use positive jobs and a PS4 version such as {VERSION}')
     runner=Runner(ROOT/'build-logs')
     try:
         if args.command=='doctor':doctor(args)

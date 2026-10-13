@@ -16,7 +16,7 @@ CXX = $(SDK)/bin/orbis-clang++
 LD = $(SDK)/bin/orbis-ld
 FSELF ?= $(TOOLCHAIN)/bin/linux/create-fself
 TITLE ?= Cyrene Launcher
-VERSION ?= 01.06
+VERSION ?= 01.09
 TITLE_ID ?= OJDK00003
 CONTENT_ID ?= IV0000-OJDK00003_00-ORBISJARRUNNER01
 PAID ?= 0x3800000000000011
@@ -97,18 +97,18 @@ $(STAGE)/sce_sys/param.sfo: $(BUILD)/settings $(STAGE)/sce_sys/icon0.png
 		$(STAGE)/sce_module/libc.prx
 	cp $(TOOLCHAIN)/samples/hello_world/sce_module/libSceFios2.prx \
 		$(STAGE)/sce_module/libSceFios2.prx
-	$(DOTNET) $(PKGTOOL) sfo_new $@
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ APP_TYPE --type Integer --maxsize 4 --value 1
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ APP_VER --type Utf8 --maxsize 8 --value '$(VERSION)'
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ ATTRIBUTE --type Integer --maxsize 4 --value $$(($(ATTRIBUTE)))
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ ATTRIBUTE2 --type Integer --maxsize 4 --value $$(($(ATTRIBUTE2)))
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ CATEGORY --type Utf8 --maxsize 4 --value gd
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ CONTENT_ID --type Utf8 --maxsize 48 --value '$(CONTENT_ID)'
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ DOWNLOAD_DATA_SIZE --type Integer --maxsize 4 --value 0
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ SYSTEM_VER --type Integer --maxsize 4 --value 0
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ TITLE --type Utf8 --maxsize 128 --value '$(TITLE)'
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ TITLE_ID --type Utf8 --maxsize 12 --value '$(TITLE_ID)'
-	$(DOTNET) $(PKGTOOL) sfo_setentry $@ VERSION --type Utf8 --maxsize 8 --value '$(VERSION)'
+	$(PKGTOOL) sfo_new $@
+	$(PKGTOOL) sfo_setentry $@ APP_TYPE --type Integer --maxsize 4 --value 1
+	$(PKGTOOL) sfo_setentry $@ APP_VER --type Utf8 --maxsize 8 --value '$(VERSION)'
+	$(PKGTOOL) sfo_setentry $@ ATTRIBUTE --type Integer --maxsize 4 --value $$(($(ATTRIBUTE)))
+	$(PKGTOOL) sfo_setentry $@ ATTRIBUTE2 --type Integer --maxsize 4 --value $$(($(ATTRIBUTE2)))
+	$(PKGTOOL) sfo_setentry $@ CATEGORY --type Utf8 --maxsize 4 --value gd
+	$(PKGTOOL) sfo_setentry $@ CONTENT_ID --type Utf8 --maxsize 48 --value '$(CONTENT_ID)'
+	$(PKGTOOL) sfo_setentry $@ DOWNLOAD_DATA_SIZE --type Integer --maxsize 4 --value 0
+	$(PKGTOOL) sfo_setentry $@ SYSTEM_VER --type Integer --maxsize 4 --value 0
+	$(PKGTOOL) sfo_setentry $@ TITLE --type Utf8 --maxsize 128 --value '$(TITLE)'
+	$(PKGTOOL) sfo_setentry $@ TITLE_ID --type Utf8 --maxsize 12 --value '$(TITLE_ID)'
+	$(PKGTOOL) sfo_setentry $@ VERSION --type Utf8 --maxsize 8 --value '$(VERSION)'
 
 RELEASE_INPUTS := $(PROJECT_DIR)/tools/runtime-package-inputs.json
 RELEASE_LAUNCHER := $(PROJECT_DIR)/../graphics-probe/build/launcher-release/orbis-launcher.jar
@@ -125,8 +125,8 @@ $(STAGE)/package.gp4: runtime-stage $(PROJECT_DIR)/tools/make_gp4.py
 package: $(STAGE)/package.gp4
 	$(PYTHON) $(PROJECT_DIR)/tools/check_runner_package.py $(STAGE)
 	mkdir -p $(OUT)
-	$(DOTNET) $(PKGTOOL) pkg_build $< $(OUT)
-	$(DOTNET) $(PKGTOOL) pkg_validate --verbose $(OUT)/$(CONTENT_ID).pkg
+	$(PKGTOOL) pkg_build $< $(OUT)
+	$(PKGTOOL) pkg_validate --verbose $(OUT)/$(CONTENT_ID).pkg
 
 check:
 	cd $(PROJECT_DIR) && PYTHONDONTWRITEBYTECODE=1 $(PYTHON) tests/run_checks.py --sdk $(SDK) --toolchain $(TOOLCHAIN)

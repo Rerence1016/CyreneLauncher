@@ -61,12 +61,15 @@ final class AccountStore {
     synchronized List<Account> list() { return List.copyOf(accounts); }
     /** Microsoft accounts are saved only after Minecraft ownership was confirmed (MicrosoftAuthClient). */
     synchronized boolean hasOwnedMinecraft() {
-        for (Account account : accounts) {
-            if (!"microsoft".equals(account.kind())) continue;
-            try { credential(account.id()); return true; }
-            catch (IOException unavailable) { /* Expired or missing sign-in does not grant offline use. */ }
-        }
-        return false;
+        // for (Account account : accounts) {
+        //     if (!"microsoft".equals(account.kind())) continue;
+        //     try { credential(account.id()); return true; }
+        //     catch (IOException unavailable) { /* Expired or missing sign-in does not grant offline use. */ }
+        // }
+        // return false;
+
+        // Strip out account requirement
+        return true;
     }
     synchronized Account get(String id) {
         return accounts.stream().filter(account -> account.id().equals(id)).findFirst().orElse(null);
@@ -77,8 +80,13 @@ final class AccountStore {
     synchronized Account resolveAccount(String instanceOverride) throws IOException {
         String id = instanceOverride == null || instanceOverride.isBlank() ? defaultId : instanceOverride;
         Account account = get(id);
-        if (account == null) throw new IOException(OWNERSHIP_REQUIRED);
-        if ("offline".equals(account.kind())) requireOwnedMinecraft();
+
+        if (account == null) {
+            return new Account("offline_id", "offline", "PS4_Player", "00000000-0000-0000-0000-000000000000");
+        }
+
+        // Remove account check after downloading necessary files
+        // if ("offline".equals(account.kind())) requireOwnedMinecraft();
         return account;
     }
 
